@@ -6,15 +6,15 @@
 typedef struct Node Node;
 
 struct Node {
-    void * data;
-    Node * next;
-    Node * prev;
+  void * data;
+  Node * next;
+  Node * prev;
 };
 
 struct List {
-    Node * head;
-    Node * tail;
-    Node * current;
+  Node * head;
+  Node * tail;
+  Node * current;
 };
 
 typedef List List;
@@ -65,16 +65,16 @@ void * prevList(List * libro) {
 void * listpushback(List * libro, void * data) {
   Node* nuevo = createNode(data);
 
-  list->current = list->tail;
+  libro->current = libro->tail;
   
-  if(list->head == NULL)
+  if(libro->head == NULL)
   {
     libro->head = nuevo;
     libro->tail = nuevo;
   }else {
-    list->current->next = nuevo;
-    nuevo->prev = list->current;
-    list->tail = nuevo;
+    libro->current->next = nuevo;
+    nuevo->prev = libro->current;
+    libro->tail = nuevo;
   }
 }
 

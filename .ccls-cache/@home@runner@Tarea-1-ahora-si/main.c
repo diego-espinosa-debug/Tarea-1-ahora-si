@@ -10,15 +10,15 @@
 #define MAXIMO 50
 
 typedef struct{
-  char ubicacion[50];
-  char estado[50];
+  char ubicacion[51];
+  char estado[51];
   Queue* reservas = createQueue ();
 }libroSit;
 
 typedef struct{
-  char titulo[50];
-  char autor[50];
-  char genero[50];
+  char titulo[51];
+  char autor[51];
+  char genero[51];
   unsigned int isbn;
   libroSit situacion;
 }LibroInf;
@@ -27,12 +27,30 @@ bool verificarLong(const char* ingresado){
   return(strlen(ingresado) <= MAXIMO);
 }
 
-void ingresarCaracteres(char* nombre){
+void ingreso_de_datos_tipoChar(char* caracteres){
   do{
     
-  }
+    fgets(caracteres, MAXIMO+1, stdin);
+    caracteres[strlen(caracteres)-1] = 'O';
     
+    if (!verificarLong(caracteres)){
+      printf("Se excede el limite de caracteres permitido\n");
+    }
+    
+  }while(!verificarLong(caracteres));
+  return;
 }
+
+void inicializador(libroinf* nuevo){
+  nuevo->titulo = NULL;
+  nuevo->autor = NULL;
+  nuevo->genero = NULL;
+  nuevo->isbn = 0;
+  nuevo->situacion->ubicacion = NULL;
+  strcpy(nuevo->situacion->estado,"Disponible");
+}
+
+
 int main(void) {
 
   List* libros  = createList();
@@ -49,29 +67,35 @@ int main(void) {
   printf("Si desea ver los libros prestados escriba 8\n");
   printf("Si desea importar libros desde un archivo CSV, escriba 9\n");
   printf("Si desea exportar libros a un archivo CSV, escriba 10\n");
-
   scanf("%d", &intruccion);
-  
+  char auxiliar[MAXIMO+1];// se usara esta varible para ingresar a la funcion que comprobara el maximo de caracteres
   switch(intruccion) {
     case 1://registrar libros
+      LibroInf* nuevo = (LibroInf*) malloc(sizeof(LibroInf));
+
+      inicializador(&nuevo);
       
-      LibroInf* nuevo = (Libroinf*) malloc(sizeof(Libroinf));
+    /*  scanf("%[^,]%[^,]%[^,]%u%[^,]%[^,]%[^,]", nuevo->titulo, nuevo->autor, nuevo->genero, &(nuevo->isbn), nuevo->situacion->ubicacion, nuevo->situacion->estado, nuevo->situacion->reserva);
+    */  
+      printf("Ingrese el titulo, autor, género, ISBN, ubicacion\n");
+      ingreso_de_datos_tipoChar(nuevo->titulo);// para el titulo
+      nuevo->autor = ingreso_de_datos_tipoChar(nuevo->autor);// para el autor
+      nuevo->genero = ingreso_de_datos_tipoChar(nuevo->genero);// para el genero 
+      scanf("%s", &(nuevo->isbn));
+      nuevo->situacion->ubicacion = ingreso_de_datos_tipoChar(auxiliar);// para la ubicacion
       
-      scanf("%[^,]%[^,]%[^,]%u%[^,]%[^,]%[^,]", nuevo->titulo, nuevo->autor, nuevo->genero, &(nuevo->isbn), nuevo->situacion->ubicacion, nuevo->situacion->estado, nuevo->ituacion->reserva);
-      
-      scanf("%[^,]", nuevo->titulo);
-      if(strlen(nuevo->titulo) > 50){
-        printf("se excede el limite de palabras permitido para el titulo");
-      }
       
       listpushback(libros,nuevo);
       
       break;
     case 2://mostrar datos del libro
-      printf("Favor de escribir el titulo y autor del libro que desee ver");
-
-      char tituloBus[50];
-      char autorBus[50];
+      printf("Escribir el titulo y autor del libro que desee ver");
+      
+      char tituloBus[51];
+      char autorBus[51] = ingreso_de_datos_tipoChar(tituloBus);
+      
+      tituloBus[51] = ingreso_de_datos_tipoChar(auxiliar);
+        
       scanf("%50[^,]%50[^,]", tituloBus, autorBus);
 
       LibroInf* buscado = firstList(libros);
@@ -82,7 +106,7 @@ int main(void) {
       }
 
       while(buscado != NULL){
-        if(strcmp(buscado->titulo,tituloBus) == 0 && trcmp(buscado->autor,autorBus) == 0){
+        if(strcmp(buscado->titulo,tituloBus) == 0 && strcmp(buscado->autor,autorBus) == 0){
           printf("EL titulo del libro es %s\n", buscado->titulo);
           printf("EL autor del libro es %s\n", buscado->autor);
           printf("El genero del libro es %s\n", buscado->genero);
@@ -114,20 +138,26 @@ int main(void) {
     
       break;
     case 4:// reservar libro
-      printf("Favor de escribir el titulo y autor del libro, ademas del nombre de quien desee reservar el libro"); 
-      char tituloBus[50];
-      char autorBus[50];
-      char reservando[50];
+      printf("Favor de escribir el titulo y autor del libro, ademas del nombre de quien desee reservar el libro\n"); 
+      char tituloBus[51];
+      char autorBus[51];
+      char reservando[51];
       scanf("%50[^,]%50[^,]%50[^,]", tituloBus, autorBus, reservando);
 
       LibroInf* buscado = firstList(libros);
       
       while(buscado != NULL){
         if(strcmp(buscado->titulo,tituloBus) == 0 && trcmp(buscado->autor,autorBus) == 0){
-          pushback()
+          colapushfront(buscado->situacion->reservas,reservando);
+          break;
         }
         buscado = nextList(libros);
       }
+
+      if(buscado == NULL){
+        printf("no se encontró el libro que se desea reservar\n");
+      }
+      
       break;
     case 5:// cancelar reserva de libro
       printf("Favor de escribir el titulo y autor del libro, ademas del nombre de quien desee cancelar la reserva del libro");            

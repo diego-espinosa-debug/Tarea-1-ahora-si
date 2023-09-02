@@ -1,6 +1,7 @@
 #include "cola.h"
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 
 typedef struct Nodo Nodo;
 
@@ -12,18 +13,29 @@ struct Nodo{
 struct Queue{
   Nodo *head;
   Nodo *tail;
+  Nodo *current;
 };
 
+typedef Queue Queue;
+
 Nodo * createNode(void * data) {
-  Nodo * new = (Nodo *)malloc(sizeof(Node));
-  assert(new != NULL);
-  new->data = data;
-  new->next = NULL;
-  return new;
+  Nodo * nuevo = (Nodo *)malloc(sizeof(Node));
+  assert(nuevo != NULL);
+  strcpy(nuevo->NombreRes,data);
+  nuevo->next = NULL;
+  return nuevo;
 }
 
-Queue* CreateQueue(){
-  Queue* reservas =  
+Queue * CreateQueue(){
+  Queue * reserva = (Queue*) malloc(sizeof(Queue));
+  reserva->head = NULL;
+  reserva->tail = NULL;
+  reserva->current = NULL;
+  return reserva;
+}
+
+void * colapushfront(Queue )
+ 
   
 }
 
