@@ -10,13 +10,12 @@ struct Nodo{
   struct Nodo* next;
 };
 
-struct Queue{
+typedef struct{
   Nodo *head;
   Nodo *tail;
   Nodo *current;
-};
+}Queue;
 
-typedef Queue Queue;
 
 Nodo * createNode(void * data) {
   Nodo * nuevo = (Nodo *)malloc(sizeof(Node));
@@ -34,8 +33,8 @@ Queue * CreateQueue(){
   return reserva;
 }
 
-void * colapushfront(Queue )
+/*void * colapushfront(Queue )
  
   
-}
+}*/
 
