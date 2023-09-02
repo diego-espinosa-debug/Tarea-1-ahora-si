@@ -10,7 +10,7 @@
 #define MAXIMO 50
 
 
-typedef struct{
+typedef struct {
     char titulo[51];
     char autor[51];
     char genero[51];
@@ -53,7 +53,6 @@ void ingreso_de_datos_tipoChar(char* caracteres){
 int main(void) {
 
   List* libros  = createList();
-
   
   int intruccion = 0;
   printf("Si desea registrar un libro, escriba 1\n");
@@ -71,8 +70,8 @@ int main(void) {
   switch(intruccion) {
     case 1://registrar libros
       
-      LibroInf* nuevo= (LibroInf*) malloc (sizeof(LibroInf));
-      
+      printf("");
+      LibroInf* nuevo = (LibroInf*)malloc(sizeof(LibroInf));
       //inicializador(nuevo);
       
       /*scanf("%[^,]%[^,]%[^,]%u%[^,]%[^,]%[^,]", nuevo->titulo, nuevo->autor, nuevo->genero, &(nuevo->isbn), nuevo->situacion->ubicacion, nuevo->situacion->estado, nuevo->situacion->reserva);
@@ -84,7 +83,7 @@ int main(void) {
       printf("Ingrese el género\n");
       ingreso_de_datos_tipoChar(nuevo->genero);// para el genero 
       printf("Ingrese el ISBN\n");
-      scanf("%s", &(nuevo->isbn)); // para el isbn
+      scanf("%u", &(nuevo->isbn)); // para el isbn
       printf("Ingrese la ubicación\n");
       ingreso_de_datos_tipoChar(nuevo->ubicacion);// para la ubicacion
       
@@ -131,11 +130,12 @@ int main(void) {
       }
 
       if(buscado == NULL){
-        printf("El libro que se quiso buscar no se encuentra en la base de datos");
+        printf("El libro que se quiso buscar no se encuentra en la base de datos\n");
       }
+      
       break;
     case 3:// mostrar todos los libros
-      
+      printf("");
       LibroInf* mostrar = firstList(libros);
       
       while(mostrar != NULL){
@@ -148,23 +148,29 @@ int main(void) {
     
       break;
     case 4:// reservar libro
-      printf("Favor de escribir el titulo y autor del libro, ademas del nombre de quien desee reservar el libro\n"); 
-      char tituloBus[51];
-      char autorBus[51];
+      printf("Para reservar el libro tendra que escribir el titulo, autor y el nombre del estudiante\n"); 
+      char tituloBus4[51];// le agregamos el 4 para que no haya un error de redefinition 
+      char autorBus4[51];// le agregamos el 4 para que no haya un error de redefinition
       char reservando[51];
+      ingreso_de_datos_tipoChar(tituloBus4);
+      ingreso_de_datos_tipoChar(autorBus4);
+      ingreso_de_datos_tipoChar(reservando);
+
+
+      
       scanf("%50[^,]%50[^,]%50[^,]", tituloBus, autorBus, reservando);
 
-      LibroInf* buscado = firstList(libros);
+      LibroInf* buscado4 = firstList(libros);
       
       while(buscado != NULL){
-        if(strcmp(buscado->titulo,tituloBus) == 0 && strcmp(buscado->autor,autorBus) == 0){
-          colapushfront(buscado->reservas,reservando);
+        if(strcmp(buscado4->titulo,tituloBus4) == 0 && strcmp(buscado4->autor,autorBus4) == 0){
+          colapushfront(buscado4->reservas,reservando);
           break;
         }
-        buscado = nextList(libros);
+        buscado4 = nextList(libros);
       }
 
-      if(buscado == NULL){
+      if(buscado4 == NULL){
         printf("no se encontró el libro que se desea reservar\n");
       }
       
