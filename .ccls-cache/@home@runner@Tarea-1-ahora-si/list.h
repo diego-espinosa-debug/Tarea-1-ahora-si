@@ -13,6 +13,8 @@ void * nextList(List * list);
 
 void * prevList(List * list);
 
+void * listpushback(List * list, void * data);
+
 void mostrarLista( List* libro);
 
 void cleanList(List * list);

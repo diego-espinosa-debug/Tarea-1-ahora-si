@@ -62,7 +62,7 @@ void * prevList(List * libro) {
   return(libro->current->data);
 }
 
-void * pushback(List * libro, void * data) {
+void * listpushback(List * libro, void * data) {
   Node* nuevo = createNode(data);
 
   list->current = list->tail;

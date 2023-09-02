@@ -1,15 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include <stdbool.h>
+
 #include "list.h"
 #include "cola.h"
-
+//se define el numero maximo de caracteres permitido
+#define MAXIMO 50
 
 typedef struct{
   char ubicacion[50];
   char estado[50];
-  char reserva[50];
-}libroSit ;
+  Queue* reservas = createQueue ();
+}libroSit;
 
 typedef struct{
   char titulo[50];
@@ -19,6 +23,16 @@ typedef struct{
   libroSit situacion;
 }LibroInf;
 
+bool verificarLong(const char* ingresado){
+  return(strlen(ingresado) <= MAXIMO);
+}
+
+void ingresarCaracteres(char* nombre){
+  do{
+    
+  }
+    
+}
 int main(void) {
 
   List* libros  = createList();
@@ -40,22 +54,25 @@ int main(void) {
   
   switch(intruccion) {
     case 1://registrar libros
+      
       LibroInf* nuevo = (Libroinf*) malloc(sizeof(Libroinf));
-      scanf("%[^,], %[^,] ,%[^,], %u, %[^,], %[^,] %[^,]", nuevo->titulo,
-      nuevo->autor, nuevo->genero, %(nuevo->isbn), 
-      nuevo->situacion->ubicacion, nuevo->situacion->estado, 
-      nuevo->ituacion->reserva);
-
-      pushback(libros,nuevo);
-      Queue* reservas = createQueue ();
+      
+      scanf("%[^,]%[^,]%[^,]%u%[^,]%[^,]%[^,]", nuevo->titulo, nuevo->autor, nuevo->genero, &(nuevo->isbn), nuevo->situacion->ubicacion, nuevo->situacion->estado, nuevo->ituacion->reserva);
+      
+      scanf("%[^,]", nuevo->titulo);
+      if(strlen(nuevo->titulo) > 50){
+        printf("se excede el limite de palabras permitido para el titulo");
+      }
+      
+      listpushback(libros,nuevo);
       
       break;
     case 2://mostrar datos del libro
-      printf("Favor de escribir el titulo y autor del libro que desee                  ver");
+      printf("Favor de escribir el titulo y autor del libro que desee ver");
 
       char tituloBus[50];
       char autorBus[50];
-      scanf("%50[^,],%50[^,]", tituloBus, autorBus);
+      scanf("%50[^,]%50[^,]", tituloBus, autorBus);
 
       LibroInf* buscado = firstList(libros);
 
@@ -65,14 +82,12 @@ int main(void) {
       }
 
       while(buscado != NULL){
-        if(strcmp(buscado->titulo,tituloBus) == 0 && 
-        trcmp(buscado->autor,autorBus) == 0){
+        if(strcmp(buscado->titulo,tituloBus) == 0 && trcmp(buscado->autor,autorBus) == 0){
           printf("EL titulo del libro es %s\n", buscado->titulo);
           printf("EL autor del libro es %s\n", buscado->autor);
           printf("El genero del libro es %s\n", buscado->genero);
           printf("El ISBN del libro es %u\n", buscado->isbn);
-          printf("El libro se encuentra en %s\n", 
-          buscado->situacion->ubicacion);
+          printf("El libro se encuentra en %s\n", buscado->situacion->ubicacion);
           printf("El estado del libro es %s\n", buscado->situacion->estado);
           //falta mostrar reservas
           break; //de nuevo, no estoy seguro
@@ -90,8 +105,8 @@ int main(void) {
       LibroInf* mostrar = firstList(libros);
 
       while(mostrar != NULL){
-        printf("EL titulo del libro es %s\n", buscado->titulo);
-        printf("EL autor del libro es %s\n\n", buscado->autor);
+        printf("EL titulo del libro es %s\n", mostrar->titulo);
+        printf("EL autor del libro es %s\n\n", mostrar->autor);
 
         mostrar = nextList(libros);
       }
@@ -99,16 +114,27 @@ int main(void) {
     
       break;
     case 4:// reservar libro
-      printf("Favor de escribir el titulo y autor del libro, ademas del                nombre de quien desee reservar el libro");      
+      printf("Favor de escribir el titulo y autor del libro, ademas del nombre de quien desee reservar el libro"); 
+      char tituloBus[50];
+      char autorBus[50];
+      char reservando[50];
+      scanf("%50[^,]%50[^,]%50[^,]", tituloBus, autorBus, reservando);
 
-      scanf("");
+      LibroInf* buscado = firstList(libros);
+      
+      while(buscado != NULL){
+        if(strcmp(buscado->titulo,tituloBus) == 0 && trcmp(buscado->autor,autorBus) == 0){
+          pushback()
+        }
+        buscado = nextList(libros);
+      }
       break;
     case 5:// cancelar reserva de libro
-      printf("Favor de escribir el titulo y autor del libro, ademas del                nombre de quien desee cancelar la reserva del libro");            
+      printf("Favor de escribir el titulo y autor del libro, ademas del nombre de quien desee cancelar la reserva del libro");            
       break;
     
     case 6:// Retirar libro
-      printf("Favor de escribir el titulo y autor del libro, ademas del                nombre de quien desee cancelar la reserva del libro");   
+      printf("Favor de escribir el titulo y autor del libro, ademas del nombre de quien desee cancelar la reserva del libro");   
       
       break;
     case 7://devolver libro

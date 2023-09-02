@@ -15,16 +15,15 @@ struct Queue{
 };
 
 Nodo * createNode(void * data) {
-  Nodo * new = (Node *)malloc(sizeof(Node));
+  Nodo * new = (Nodo *)malloc(sizeof(Node));
   assert(new != NULL);
   new->data = data;
-  new->prev = NULL;
   new->next = NULL;
   return new;
 }
 
 Queue* CreateQueue(){
-  //Queue* reservas =  
+  Queue* reservas =  
   
 }
 
