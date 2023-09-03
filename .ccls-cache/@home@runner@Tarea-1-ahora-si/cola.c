@@ -105,6 +105,20 @@ int * devueltaLibro(Cola * reservas, void * data){
   return (int*) 1;
 }
 
+void exportarReservas(FILE* archivo, Cola* reservas) {
+  if(archivo == NULL || reservas == NULL || estaVacia(reservas)) {
+    return;
+  }
+
+  fprintf(archivo, "Reservas: ");
+  Nodo* reservaActual = reservas->head;
+  while(reservaActual != NULL) {
+    fprintf(archivo, "%s, ", reservaActual->NombreRes);
+    reservaActual = reservaActual->next;
+  }
+  fprintf(archivo,"\n");
+}
+
 char * poseeLibro(Cola * reservas){
   return (char*) reservas->tail;
 }

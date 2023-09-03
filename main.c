@@ -86,11 +86,7 @@ void exportarLibros(List* libros){
   while(actual != NULL){
     fprintf(archivo, "%s,%s,%s,%u,%s,%s\n", actual->titulo, actual->autor, actual->genero, actual->isbn, actual->ubicacion, actual->estado);
 
-    Nodo* reservaActual = actual->reservas->head;
-    while(reservaActual != NULL){
-      fprintf(archivo, "Reserva: %s\n", reservaActual->nombreRes);
-      reservaActual = reservaActual->next;
-    }
+    exportarReservas(actual->reservas);
     actual = nextList(libros);
   }
   fclose(archivo);

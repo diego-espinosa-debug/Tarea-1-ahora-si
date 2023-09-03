@@ -1,5 +1,6 @@
 #ifndef Cola_h
 #define Cola_h
+#include <stdio.h>
 
 typedef struct Cola Cola;
 
@@ -13,7 +14,10 @@ int * retirarcola(Cola * Cola, void * data);
 
 int * devueltaLibro(Cola * Cola, void * data);
 
+void exportarReservas(FILE* archivo, Cola* reservas);
+
 char * poseeLibro(Cola * Cola);
+
 
 int estaVacia(Cola * cola);
 
