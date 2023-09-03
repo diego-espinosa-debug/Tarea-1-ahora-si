@@ -117,7 +117,7 @@ int main(void) {
     intruccion = scanf("%d", &intruccion);
 
     switch (intruccion) {
-    case 1: // registrar libros
+    case 1: // registrar libros 
 
       printf("\n");
       LibroInf *nuevo = (LibroInf *)malloc(sizeof(LibroInf));
