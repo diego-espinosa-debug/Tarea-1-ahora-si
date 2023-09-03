@@ -43,12 +43,59 @@ void ingreso_de_datos_tipoChar(char* caracteres){
   return;
 }
 
-void importarLibros(){
+void importarLibros(List* libros){
   char nomArchivo[51];
-  printf("ingrese el nombre del archivo CSV");
+  printf("ingrese el nombre del archivo CSV\n");
   ingreso_de_datos_tipoChar(nomArchivo);
-}
 
+  FILE *archivo=fopen(nomArchivo, "r");
+  if(archivo == NULL){
+    printf("No se logro abrir el archivo\n");
+    return;
+  }
+
+  char linea[310];
+  while(fgets(linea,sizeof(linea), archivo) != NULL){
+
+    LibroInf* nuevo = (LibroInf*)malloc(sizeof(LibroInf));
+    nuevo->reservas = CreateQueue();
+
+    char* fragmento = strtok(linea, ",");
+    if(fragmento != NULL){
+      strcpy(nuevo->titulo, fragmento);
+      listpushback(libros, nuevo);
+    }
+
+  }
+  fclose(archivo);
+}
+void exportarLibros(List* libros){
+  
+  char nomArchivo[51];
+  printf("Ingrese el nombre del archivo CVS para exportar los libros");
+  ingreso_de_datos_tipoChar(nomArchivo);
+
+  FILE* archivo = fopen(nomArchivo, "w");
+  if(archivo == NULL){
+    printf("No se pudo crear el archivo");
+    return;
+  }
+
+  LibroInf* actual = firstList(libros);
+
+  while(actual != NULL){
+    fprintf(archivo, "%s,%s,%s,%u,%s,%s\n", actual->titulo, actual->autor, actual->genero, actual->isbn, actual->ubicacion, actual->estado);
+
+    Nodo* reservaActual = actual->reservas->head;
+    while(reservaActual != NULL){
+      fprintf(archivo, "Reserva: %s\n", reservaActual->nombreRes);
+      reservaActual = reservaActual->next;
+    }
+    actual = nextList(libros);
+  }
+  fclose(archivo);
+  printf("Libros exportados con exito\n");
+}
 
 int main(void) {
 
@@ -165,7 +212,7 @@ int main(void) {
         while(buscado4 != NULL){
           if(strcmp(buscado4->titulo,tituloBus4) == 0 && strcmp(buscado4->autor,autorBus4) == 0){
             colapushfront(buscado4->reservas,reservando);
-            
+            strcpy(buscado4->estado,"reservado");
             break;
           }
           buscado4 = nextList(libros);
@@ -193,10 +240,9 @@ int main(void) {
 
         LibroInf* buscado5 = firstList(libros);
         
-        while(buscado != NULL){
+        while(buscado5 != NULL){
           if(strcmp(buscado5->titulo,tituloBus5) == 0 && strcmp(buscado5->autor,autorBus5) == 0){
-            popcurrentcola(buscado5->reservas,reservando);
-            
+            popcurrentcola(buscado5->reservas,reservando5);
             break;
           }
           buscado5 = nextList(libros);
@@ -219,43 +265,101 @@ int main(void) {
         ingreso_de_datos_tipoChar(tituloBus6);
         printf("ingrese el autor\n");
         ingreso_de_datos_tipoChar(autorBus6);
-        printf("ingrese el nombre del estudiante que desee cancelar la reserva del libro\n");
+        printf("ingrese el nombre del estudiante que desee retirar el libro\n");
         ingreso_de_datos_tipoChar(reservando6);
 
         //hay que hacer las funciones para esto : Si el libro está "Disponible" o si el estudiante es el primero en la cola de reservas para un libro "Reservado", entonces el libro puede ser retirado y su estado cambia a "Prestado". Si el libro ya está "Prestado" o el estudiante no tiene prioridad, se muestra un aviso. Un libro prestado lo tiene el primer estudiante de la cola de reservas.
+        LibroInf* buscado6 = firstList(libros);
+        
+        while(buscado6 != NULL){
+          if(strcmp(buscado6->titulo,tituloBus6) == 0 && strcmp(buscado6->autor,autorBus6) == 0 && (strcmp(buscado6->estado,"disponible") == 0 || strcmp(buscado6->estado,"reservado") == 0)){
+            int * opcionRetirar = retirarcola(buscado6->reservas,reservando6);
 
+            if(*opcionRetirar == 0){
+              printf("puede retirar el libro sin problema");
+              strcpy(buscado6->estado,"prestado");
+            }else{
+              printf("lo sentimos, no puede retirar el libro ya que no tienes prioridad");
+              break;
+            }
+            
+            break;
+          }else if(strcmp(buscado6->titulo,tituloBus6) == 0 && strcmp(buscado6->autor,autorBus6) == 0 && strcmp(buscado->estado,"prestado") == 0){
+            printf("lo sentimos, el libro que deseas retirar ya fue prestado");
+            break;
+          }
+          buscado6 = nextList(libros);
+        }
+
+        if(buscado6 == NULL){
+          printf("no se encontró el libro que se desea retirar\n");
+        }
+        
         
         break;
       case 7://devolver libro
-        printf("Para devolver el libro se debera escribir el titulo y autor del libro devuelto\n");        char tituloBus7[51];// le agregamos el 7 para que no haya un error de redefinition 
+        printf("Para devolver el libro se debera escribir el titulo y autor del libro devuelto\n");        
+        char tituloBus7[51];// le agregamos el 7 para que no haya un error de redefinition 
         char autorBus7[51];// le agregamos el 7 para que no haya un error de redefinition 
+        char reservando7[51];
 
         printf("ingrese el titulo\n");
         ingreso_de_datos_tipoChar(tituloBus7);
         printf("ingrese el autor\n");
-        ingreso_de_datos_tipoChar(autorBus7);      
+        ingreso_de_datos_tipoChar(autorBus7);     
+        printf("ingrese el nombre del estudiante que desee retirar el libro\n");
+        ingreso_de_datos_tipoChar(reservando7);
 
+        LibroInf* buscado7 = firstList(libros);
+        
+        while(buscado7 != NULL){
+          if(strcmp(buscado7->titulo,tituloBus7) == 0 && strcmp(buscado7->autor,autorBus7) == 0){
+            int* numEsatado = devueltaLibro(buscado7->reservas,reservando7);
+
+            if(*numEsatado == 0){
+              strcpy(buscado7->estado,"disponible");
+            }else{
+              strcpy(buscado7->estado,"reservado");
+            }
+            
+            break;
+          }
+          buscado7 = nextList(libros);
+        }
+
+        if(buscado7 == NULL){
+          printf("no se encontró el libro que se desea cancelar la reserva\n");
+        }
         
         break; 
       case 8:// mostrar libros prestados
         //!!!Todo el while es copiado de un mostrar todos los libros como idea, hay que codificarlo!!!!
-        while(mostrar != NULL){
-          printf("EL titulo del libro es %s\n", mostrar->titulo);
-          printf("EL autor del libro es %s\n\n", mostrar->autor);
-          printf("Se le presto al estudiante %s"); // hay que hacer el codigo para saber a quien se le presto
-          mostrar = nextList(libros);// aca debera ser algo como libros->prestados o algo asi supongo
+        printf(" \n");
+        LibroInf* buscado8 = firstList(libros);
+        
+        while(buscado8 != NULL){
+          
+          if(strcmp(buscado8->estado,"prestado") == 0){
+            char* prestado = poseeLibro(buscado8->reservas);
+            
+            printf("EL titulo del libro es %s\n", buscado8->titulo);
+            printf("EL autor del libro es %s\n", buscado8->autor);
+            printf("Se le presto al estudiante %s", prestado); // hay que hacer el codigo para saber a quien se le presto
+          }
+         
+          buscado8 = nextList(libros);
         }
 
         break;
       case 9:// Importar libros desde un archivo CSV
         //insertar el codigo para recibir los archivos CSV
-
+        importarLibros(libros);
         
         printf("libros importados con exito\n");
         break;
       case 10:// Exportar libros a un archivo CSV
-
-        printf("Libros exportados con exito\n");
+        exportarLibros(libros);
+        
         break;
 
       case 0:
@@ -268,7 +372,7 @@ int main(void) {
   
 
   }while(intruccion != 0);
-
+  cleanList(libros);
   return 0;
 }
 

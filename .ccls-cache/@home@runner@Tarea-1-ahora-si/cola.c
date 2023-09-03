@@ -50,6 +50,7 @@ void * colapushfront(Cola * reservas, void * data){
 
 
 void * popcurrentcola(Cola * reservas, void * data){
+  
   reservas->current = reservas->head;
   Nodo* aux = reservas->head;
   
@@ -65,14 +66,45 @@ void * popcurrentcola(Cola * reservas, void * data){
            aux = aux->next;
         }
         aux->next = reservas->current->next;
+        if(reservas->current == reservas->tail){
+          reservas->tail = aux;
+        }
         free(reservas->current);
       } 
 
       reservas->current = reservas->current->next;
     }
   }
-  
-  
 }
 
+int* retirarcola(Cola * reservas, void * data){
+  
+  if(reservas->head == NULL){
+    colapushfront(reservas,data);
+    return 0;
+  }else if(strcmp(reservas->tail->NombreRes,data) == 0){
+    return 0;
+  }
 
+  return (int*) 1;
+}
+
+int * devueltaLibro(Cola * reservas, void * data){
+  
+  if(strcmp(reservas->head->NombreRes,data) == 0){
+    popcurrentcola(reservas,data);
+    return 0;
+  }else{
+    Nodo* aux = reservas->head;
+    while(aux->next != reservas->current){
+       aux = aux->next;
+    }
+    aux->next = NULL;
+    reservas->tail = aux;
+  }
+  return (int*) 1;
+}
+
+char * poseeLibro(Cola * reservas){
+  return (char*) reservas->tail;
+}

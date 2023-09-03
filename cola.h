@@ -9,6 +9,12 @@ void * colapushfront(Cola * Cola, void * data);
 
 void * popcurrentcola(Cola * Cola, void * data);
 
+int * retirarcola(Cola * Cola, void * data);
+
+int * devueltaLibro(Cola * Cola, void * data);
+
+char * poseeLibro(Cola * Cola);
+
 int estaVacia(Cola * cola);
 
 
