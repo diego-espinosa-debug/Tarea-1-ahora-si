@@ -1,7 +1,7 @@
 #ifndef Cola_h
 #define Cola_h
 #include <stdio.h>
-
+#include <stdbool.h>
 typedef struct Cola Cola;
 
 Cola * CreateQueue(void);
@@ -18,8 +18,7 @@ void exportarReservas(FILE* archivo, Cola* reservas);
 
 char * poseeLibro(Cola * Cola);
 
-
-int estaVacia(Cola * cola);
+bool estaVacia(Cola * cola);
 
 
 

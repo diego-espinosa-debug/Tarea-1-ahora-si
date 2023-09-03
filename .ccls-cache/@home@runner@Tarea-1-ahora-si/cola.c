@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include <stdbool.h>
 #include <stdio.h>
 
 typedef struct Nodo Nodo;
@@ -104,6 +105,10 @@ int * devueltaLibro(Cola * reservas, void * data){
   }
   return (int*) 1;
 }
+
+bool estaVacia(Cola * cola){
+  return cola->head == NULL;
+} 
 
 void exportarReservas(FILE* archivo, Cola* reservas) {
   if(archivo == NULL || reservas == NULL || estaVacia(reservas)) {

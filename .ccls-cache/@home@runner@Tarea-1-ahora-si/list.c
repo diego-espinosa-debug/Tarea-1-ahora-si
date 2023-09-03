@@ -76,4 +76,18 @@ void * listpushback(List * libro, void * data) {
     nuevo->prev = libro->current;
     libro->tail = nuevo;
   }
+
+  return NULL;
 }
+
+void cleanList(List * libro){
+  while(libro->head != NULL){
+    Node * current = libro->head;
+    libro->head = libro->head->next;
+    free(current->data);
+    free(current);
+  } 
+  libro->tail = NULL;
+  libro->current = NULL;
+}
+
