@@ -7,6 +7,8 @@ Cola * CreateQueue(void);
 
 void * colapushfront(Cola * Cola, void * data);
 
+void * popcurrentcola(Cola * Cola, void * data);
+
 int estaVacia(Cola * cola);
 
 

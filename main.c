@@ -43,6 +43,12 @@ void ingreso_de_datos_tipoChar(char* caracteres){
   return;
 }
 
+void importarLibros(){
+  char nomArchivo[51];
+  printf("ingrese el nombre del archivo CSV");
+  ingreso_de_datos_tipoChar(nomArchivo);
+}
+
 
 int main(void) {
 
@@ -156,7 +162,7 @@ int main(void) {
 
         LibroInf* buscado4 = firstList(libros);
         
-        while(buscado != NULL){
+        while(buscado4 != NULL){
           if(strcmp(buscado4->titulo,tituloBus4) == 0 && strcmp(buscado4->autor,autorBus4) == 0){
             colapushfront(buscado4->reservas,reservando);
             
@@ -184,6 +190,21 @@ int main(void) {
         ingreso_de_datos_tipoChar(reservando5);
 
         // hay que hacer las funciones para quitar la recerva con la cola
+
+        LibroInf* buscado5 = firstList(libros);
+        
+        while(buscado != NULL){
+          if(strcmp(buscado5->titulo,tituloBus5) == 0 && strcmp(buscado5->autor,autorBus5) == 0){
+            popcurrentcola(buscado5->reservas,reservando);
+            
+            break;
+          }
+          buscado5 = nextList(libros);
+        }
+
+        if(buscado5 == NULL){
+          printf("no se encontró el libro que se desea cancelar la reserva\n");
+        }
         
         break;
       

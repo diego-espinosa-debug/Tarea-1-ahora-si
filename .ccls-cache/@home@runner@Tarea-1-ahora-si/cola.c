@@ -37,10 +37,10 @@ Cola * CreateQueue(){
 
 void * colapushfront(Cola * reservas, void * data){
   Nodo * nuevo = createNodo(data);
-  
   if(reservas->head == NULL)
   {
     reservas->head = nuevo;
+    reservas->tail = nuevo;
     nuevo->next = NULL;
   }else {
     nuevo->next = reservas->head;
@@ -49,8 +49,30 @@ void * colapushfront(Cola * reservas, void * data){
 }
 
 
-/*void * colapushfront(Queue )
- 
+void * popcurrentcola(Cola * reservas, void * data){
+  reservas->current = reservas->head;
+  Nodo* aux = reservas->head;
   
-}*/
+  if(reservas->head == reservas->tail){
+    free(reservas->current);
+    reservas->head = NULL;
+    reservas->tail = NULL;
+    reservas->current = NULL;
+  }else{
+    while(reservas->current != NULL){
+      if(strcmp(reservas->current->NombreRes, data) == 0){
+        while(aux->next != reservas->current){
+           aux = aux->next;
+        }
+        aux->next = reservas->current->next;
+        free(reservas->current);
+      } 
+
+      reservas->current = reservas->current->next;
+    }
+  }
+  
+  
+}
+
 

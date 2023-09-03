@@ -77,13 +77,3 @@ void * listpushback(List * libro, void * data) {
     libro->tail = nuevo;
   }
 }
-
-/*void mostrarLista( List* libro){
-  libro->current = libro->head;
-
-  while(libro->current->data != NULL){
-    printf("%s\n",libro->current->data);
-    libro->current = libro->current->next;
-  }
-  //hay que borrar pero despues
-}*/
