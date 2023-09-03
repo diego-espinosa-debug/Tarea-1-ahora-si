@@ -19,8 +19,8 @@ struct Cola{
 
 typedef struct Cola Cola;
 
-Nodo * createNode(void * data) {
-  Nodo * nuevo = (Nodo *)malloc(sizeof(Node));
+Nodo * createNodo(void * data) {
+  Nodo * nuevo = (Nodo *)malloc(sizeof(Nodo));
   assert(nuevo != NULL);
   strcpy(nuevo->NombreRes,data);
   nuevo->next = NULL;
@@ -34,6 +34,20 @@ Cola * CreateQueue(){
   reserva->current = NULL;
   return reserva;
 }
+
+void * colapushfront(Cola * reservas, void * data){
+  Nodo * nuevo = createNodo(data);
+  
+  if(reservas->head == NULL)
+  {
+    reservas->head = nuevo;
+    nuevo->next = NULL;
+  }else {
+    nuevo->next = reservas->head;
+    reservas->head = nuevo;
+  }
+}
+
 
 /*void * colapushfront(Queue )
  

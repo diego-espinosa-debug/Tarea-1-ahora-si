@@ -1,14 +1,14 @@
-#ifdef cola_h
-#define cola_h
+#ifndef Cola_h
+#define Cola_h
 
 typedef struct Cola Cola;
 
-Cola * CreateQueue(Void);
+Cola * CreateQueue(void);
 
-void * inicializarCola(Cola* cola;
+void * colapushfront(Cola * Cola, void * data);
 
-int estaVacia(Cola * cola)
+int estaVacia(Cola * cola);
 
 
 
-#endif /*cola_h*/
+#endif /* Cola_h */
