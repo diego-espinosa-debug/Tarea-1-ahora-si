@@ -86,7 +86,7 @@ void exportarLibros(List* libros){
   while(actual != NULL){
     fprintf(archivo, "%s,%s,%s,%u,%s,%s\n", actual->titulo, actual->autor, actual->genero, actual->isbn, actual->ubicacion, actual->estado);
 
-    exportarReservas(actual->reservas);
+    exportarReservas(archivo, actual->reservas);
     actual = nextList(libros);
   }
   fclose(archivo);
@@ -116,7 +116,7 @@ int main(void) {
     switch(intruccion) {
       case 1://registrar libros
         
-        printf("");
+        printf("\n");
         LibroInf* nuevo = (LibroInf*)malloc(sizeof(LibroInf));
         nuevo->reservas = CreateQueue();
         
@@ -179,7 +179,7 @@ int main(void) {
         
         break;
       case 3:// mostrar todos los libros
-        printf("");
+        printf("\n");
         LibroInf* mostrar = firstList(libros);
         
         while(mostrar != NULL){
