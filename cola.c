@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include <stdio.h>
 
 typedef struct Nodo Nodo;
 
@@ -10,12 +11,13 @@ struct Nodo{
   struct Nodo* next;
 };
 
-typedef struct{
+struct Cola{
   Nodo *head;
   Nodo *tail;
   Nodo *current;
-}Queue;
+};
 
+typedef struct Cola Cola;
 
 Nodo * createNode(void * data) {
   Nodo * nuevo = (Nodo *)malloc(sizeof(Node));
@@ -25,8 +27,8 @@ Nodo * createNode(void * data) {
   return nuevo;
 }
 
-Queue * CreateQueue(){
-  Queue * reserva = (Queue*) malloc(sizeof(Queue));
+Cola * CreateQueue(){
+  Cola * reserva = (Cola*) malloc(sizeof(Cola));
   reserva->head = NULL;
   reserva->tail = NULL;
   reserva->current = NULL;

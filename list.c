@@ -42,7 +42,7 @@ void * firstList(List * libro) {
   return(libro->head->data);
 }
 
-void * lastList(List * list) {
+void * lastList(List * libro) {
   if (!libro->tail)return NULL;
   libro->current = libro->tail;
   return(libro->current->data);
